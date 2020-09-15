@@ -1,11 +1,5 @@
-#include <iomanip>
-#include <string>
 #include <vector>
-#include <algorithm>
-#include <stdlib.h>
-#include <iostream>
 #include <cmath>
-#include <cstdio>
 
 using namespace std;
 

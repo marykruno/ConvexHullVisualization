@@ -1,10 +1,4 @@
-#include <iomanip>
-#include <string>
-#include <stack>
 #include <vector>
-#include <algorithm>
-#include <stdlib.h>
-#include <iostream>
 
 using namespace std;
 
