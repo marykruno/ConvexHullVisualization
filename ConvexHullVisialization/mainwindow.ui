@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1184</width>
+    <height>637</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1184</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actionclear_All"/>
+    <addaction name="actionbackground_color"/>
+    <addaction name="actionpoints_color"/>
+    <addaction name="actionconvex_hull_color"/>
+    <addaction name="actionchoose_algorithm"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuOptions"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionclear_All">
+   <property name="text">
+    <string>Clear All</string>
+   </property>
+   <property name="toolTip">
+    <string>Clear All</string>
+   </property>
+  </action>
+  <action name="actionbackground_color">
+   <property name="text">
+    <string>Background color</string>
+   </property>
+   <property name="toolTip">
+    <string>Background color</string>
+   </property>
+  </action>
+  <action name="actionpoints_color">
+   <property name="text">
+    <string>Points color</string>
+   </property>
+   <property name="toolTip">
+    <string>Points color</string>
+   </property>
+  </action>
+  <action name="actionconvex_hull_color">
+   <property name="text">
+    <string>Convex hull color</string>
+   </property>
+   <property name="toolTip">
+    <string>Convex hull color</string>
+   </property>
+  </action>
+  <action name="actionchoose_algorithm">
+   <property name="text">
+    <string>Choose algorithm</string>
+   </property>
+   <property name="iconText">
+    <string>Choose algorithm</string>
+   </property>
+   <property name="toolTip">
+    <string>Choose algorithm</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

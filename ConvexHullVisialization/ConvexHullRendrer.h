@@ -1,5 +1,5 @@
-#if !defined _CONVEXHULL_RENDERER_H
-#define _CONVEXHULL_RENDERER_H
+#pragma once
+#include <QGraphicsScene>
 
 class ConvexHullModelBase;
 class ConvexHullRenderer;
@@ -9,7 +9,7 @@ class IRenderStyleObserver
 public:
 	IRenderStyleObserver() {};
 	virtual ~IRenderStyleObserver() {};
-	virtual void OnRenderStyleChanged(const ConvexHullRenderer* p_renderer) = 0;
+    virtual void onRenderStyleChanged(const ConvexHullRenderer* p_renderer) = 0;
 };
 
 class ConvexHullRenderer
@@ -17,42 +17,42 @@ class ConvexHullRenderer
 public:
 	ConvexHullRenderer();
 	virtual ~ConvexHullRenderer();
-	void Draw(CDC& dc, const CRect& cli_rect, const ConvexHullModelBase& model);
-
-	COLORREF GetPointsColor() const
+    void Draw(QGraphicsScene& scene, const ConvexHullModelBase& model);
+    void resetColors();
+    QColor GetPointsColor() const
 	{
 		return points_color;
 	}
 
-	COLORREF GetConvexHullColor() const
+    QColor GetConvexHullColor() const
 	{
 		return convex_hull_color;
 	}
 
-	COLORREF GetBackgroundColor() const
+    QColor GetBackgroundColor() const
 	{
 		return background_color;
 	}
 
-	void SetPointsColor(COLORREF color)
+    void SetPointsColor(QColor color)
 	{
 		points_color = color;
 		if (p_observer != NULL)
-			p_observer->OnRenderStyleChanged(this);
+            p_observer->onRenderStyleChanged(this);
 	}
 
-	void SetConvexHullColor(COLORREF color)
+    void SetConvexHullColor(QColor color)
 	{
 		convex_hull_color = color;
 		if (p_observer != NULL)
-			p_observer->OnRenderStyleChanged(this);
+            p_observer->onRenderStyleChanged(this);
 	}
 
-	void SetBackgroundColor(COLORREF color)
+    void SetBackgroundColor(QColor color)
 	{
 		background_color = color;
 		if (p_observer != NULL)
-			p_observer->OnRenderStyleChanged(this);
+            p_observer->onRenderStyleChanged(this);
 	}
 
 
@@ -62,12 +62,12 @@ public:
 	}
 
 private:
-	COLORREF points_color, convex_hull_color, background_color;
+    QColor points_color, convex_hull_color, background_color;
 	IRenderStyleObserver* p_observer;
+    const double points_rad = 6.0;
 
 private:
-	void DrawPoints(CDC& dc, const ConvexHullModelBase& model);
-	void DrawConvexHull(CDC& dc, const ConvexHullModelBase& model);
-	void DrawBackground(CDC& dc, const CRect& cli_rect);
+    void DrawPoints(QGraphicsScene& scene, const ConvexHullModelBase& model);
+    void DrawConvexHull(QGraphicsScene& scene, const ConvexHullModelBase& model);
+    void DrawBackground(QGraphicsScene& scene);
 };
-#endif

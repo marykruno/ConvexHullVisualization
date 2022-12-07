@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "ConvexHullModelQuick.h"
 #include "ConvexHullQuick.h"
 

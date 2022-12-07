@@ -1,5 +1,4 @@
-#if !defined _CONVEXHULL_MODELQUICK_H
-#define _CONVEXHULL_MODELQUICK_H
+#pragma once
 #include "ConvexHullModelVectorContainers.h"
 
 class ConvexHullModelQuick : public ConvexHullModelVectorContainer
@@ -11,7 +10,3 @@ public:
 protected:
 	virtual void RecalculateModel();
 };
-
-
-
-#endif

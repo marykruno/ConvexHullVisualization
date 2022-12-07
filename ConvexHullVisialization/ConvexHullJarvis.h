@@ -2,18 +2,18 @@
 
 using namespace std;
 
-template <class T> int SignOfAreaTriangle(T a, T b, T c)
+template <class T> int signOfAreaTriangle(T a, T b, T c)
 {
 	return a.x*(b.y - c.y) + b.x*(c.y - a.y) + c.x*(a.y - b.y);
 };
 
-template <class T> bool IsPointInRectangle(T point, T first, T last)
+template <class T> bool isPointInRectangle(T point, T first, T last)
 {
 	return (first.x <= point.x) && (point.x <= last.x) && (first.y <= point.y) && (point.y <= last.y);
 };
 
 
-template <class T> void BuildConvexHullJarvis(const vector<T> & ar_pts, vector<int> & convex_hull_ind)
+template <class T> void buildConvexHullJarvis(const vector<T> & ar_pts, vector<int> & convex_hull_ind)
 {
 	convex_hull_ind.clear();
 	if (ar_pts.size() <= 2)
@@ -45,14 +45,14 @@ template <class T> void BuildConvexHullJarvis(const vector<T> & ar_pts, vector<i
 		int next_ind = (cur_ind + 1) % int(ar_pts.size());
 		for (int i = 0; i<int(ar_pts.size()); ++i)
 		{
-			int sign = SignOfAreaTriangle(ar_pts[cur_ind], ar_pts[next_ind], ar_pts[i]);
+			int sign = signOfAreaTriangle(ar_pts[cur_ind], ar_pts[next_ind], ar_pts[i]);
 			if (sign < 0)
 			{
 				next_ind = i;
 			}
 			else if (sign == 0)
 			{
-				if (IsPointInRectangle(ar_pts[next_ind], ar_pts[cur_ind], ar_pts[i]))
+				if (isPointInRectangle(ar_pts[next_ind], ar_pts[cur_ind], ar_pts[i]))
 					next_ind = i;
 			}
 		}

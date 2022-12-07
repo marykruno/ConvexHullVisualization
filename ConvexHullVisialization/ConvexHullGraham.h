@@ -59,7 +59,7 @@ template <class T> void BuildConvexHullGraham(const vector<T> & ar_pts, vector<i
 
 	int ind_left_bottom = 0;
 	T left_bottom_pnt = ar_pts[0];
-	for (size_t i = 1; i < ar_pts.size(); ++i)
+	for (int i = 1; i < (int)ar_pts.size(); ++i)
 	{
 		if (ar_pts[i].y < left_bottom_pnt.y || (ar_pts[i].y == left_bottom_pnt.y && ar_pts[i].x < left_bottom_pnt.x))
 		{
@@ -69,7 +69,7 @@ template <class T> void BuildConvexHullGraham(const vector<T> & ar_pts, vector<i
 	}
 	// so now this is index of most left bottom point ind_left_bottom
 	vector<int> ar_ids(ar_pts.size());
-	for (size_t i = 0; i < ar_pts.size(); ++i)
+	for (int i = 0; i < (int)ar_pts.size(); ++i)
 	{
 		ar_ids[i] = i;
 	}

@@ -1,17 +1,14 @@
-#include "stdafx.h"
 #include "ConvexHullModelVectorContainers.h"
-
-
 
 class AllPointsIterator : public ConvexHullModelBase::PointIteratorInterface
 {
 private:
-	const vector<Point2D>& ar_pts;
+    const std::vector<Point2D>& ar_pts;
 	size_t ind;
 public:
-	AllPointsIterator(const vector<Point2D>& ar_pts_) : ar_pts(ar_pts_), ind(0) {}
+    AllPointsIterator(const std::vector<Point2D>& ar_pts_) : ar_pts(ar_pts_), ind(0) {}
 	virtual ~AllPointsIterator(){}
-	virtual Point2D GetCurValue() const
+	virtual Point2D getCurValue() const
 	{
 		Point2D ret;
 		if (ind < ar_pts.size())
@@ -19,11 +16,11 @@ public:
 
 		return ret;
 	}
-	virtual bool HasMoreElements() const
+	virtual bool hasMoreElements() const
 	{
 		return ind < ar_pts.size();
 	}
-	virtual void MoveNext()
+	virtual void moveNext()
 	{
 		if (ind < ar_pts.size())
 			++ind;
@@ -33,13 +30,13 @@ public:
 class ConvexHullPointsIterator : public ConvexHullModelBase::PointIteratorInterface
 {
 private:
-	const vector<Point2D>& ar_pts;
-	const vector<int>& ar_idx;
+    const std::vector<Point2D>& ar_pts;
+    const std::vector<int>& ar_idx;
 	size_t ind;
 public:
-	ConvexHullPointsIterator(const vector<Point2D>& ar_pts_, const vector<int>& ar_idx_) : ar_pts(ar_pts_), ar_idx(ar_idx_), ind(0) {}
+    ConvexHullPointsIterator(const std::vector<Point2D>& ar_pts_, const std::vector<int>& ar_idx_) : ar_pts(ar_pts_), ar_idx(ar_idx_), ind(0) {}
 	virtual ~ConvexHullPointsIterator(){}
-	virtual Point2D GetCurValue() const
+	virtual Point2D getCurValue() const
 	{
 		Point2D ret;
 		if (ind < ar_idx.size())
@@ -47,11 +44,11 @@ public:
 
 		return ret;
 	}
-	virtual bool HasMoreElements() const
+	virtual bool hasMoreElements() const
 	{
 		return ind < ar_idx.size();
 	}
-	virtual void MoveNext()
+	virtual void moveNext()
 	{
 		if (ind < ar_idx.size())
 			++ind;

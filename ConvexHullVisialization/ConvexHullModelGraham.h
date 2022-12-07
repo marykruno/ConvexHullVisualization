@@ -1,8 +1,5 @@
-#if !defined(_CONVEXHULL_MODEL_GRAHAM_H)
-#define _CONVEXHULL_MODEL_GRAHAM_H
+#pragma once
 #include "ConvexHullModelVectorContainers.h"
-
-
 
 class ConvexHullModelGraham : public ConvexHullModelVectorContainer
 {
@@ -13,5 +10,3 @@ public:
 protected:
 	virtual void RecalculateModel();
 };
-
-#endif

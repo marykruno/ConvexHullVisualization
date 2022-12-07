@@ -1,16 +1,12 @@
-#include "stdafx.h"
 #include "ConvexHullModelBase.h"
 #include "ConvexHullRendrer.h"
 
-using namespace std;
-
-
 ConvexHullRenderer::ConvexHullRenderer()
 {
-	points_color = RGB(0, 0, 0);
-	convex_hull_color = RGB(255, 0, 0);
-	background_color = RGB(255, 255, 255);
-	p_observer = NULL;
+    points_color = QColor(0, 0, 0);
+    convex_hull_color = QColor(255, 0, 0);
+    background_color = QColor(255, 255, 255);
+    p_observer = nullptr;
 
 }
 
@@ -20,23 +16,23 @@ ConvexHullRenderer::~ConvexHullRenderer()
 }
 
 
-void ConvexHullRenderer::DrawPoints(CDC& dc, const ConvexHullModelBase& model)
+void ConvexHullRenderer::DrawPoints(QGraphicsScene& scene, const ConvexHullModelBase& model)
 {
-	if (model.GetNumPoints() == 0)
-		return;
-	CRgn marker;
-	marker.CreateEllipticRgn(-6, -6, 6, 6);
-	CBrush points_brush(points_color);
-	PointIterator iter(model, THROUGH_ALL_POINTS);
-	Point2D prev_pnt = iter.GetCurValue();
-	marker.OffsetRgn(prev_pnt.x, prev_pnt.y);
-	dc.FillRgn(&marker, &points_brush);
+	if (model.getNumPoints() == 0)
+        return;
+
+    QBrush points_brush(points_color, Qt::SolidPattern);
+
+    PointIterator iter(model, eIteratorType::THROUGH_ALL_POINTS);
+    Point2D prev_pnt = iter.GetCurValue();
+    scene.addEllipse(prev_pnt.x-points_rad, prev_pnt.y-points_rad, points_rad*2.0, points_rad*2.0, QPen(points_color),
+                     points_brush);
 	iter.MoveNext();
 	while (iter.HasMoreElements())
 	{
-		Point2D cur_pnt = iter.GetCurValue();
-		marker.OffsetRgn(cur_pnt.x - prev_pnt.x, cur_pnt.y - prev_pnt.y);
-		dc.FillRgn(&marker, &points_brush);
+        Point2D cur_pnt = iter.GetCurValue();
+        scene.addEllipse(cur_pnt.x-points_rad, cur_pnt.y-points_rad, points_rad*2.0, points_rad*2.0, QPen(points_color),
+                         points_brush);
 		prev_pnt = cur_pnt;
 		iter.MoveNext();
 	}
@@ -44,56 +40,55 @@ void ConvexHullRenderer::DrawPoints(CDC& dc, const ConvexHullModelBase& model)
 }
 
 
-void ConvexHullRenderer::DrawConvexHull(CDC& dc, const ConvexHullModelBase& model)
+void ConvexHullRenderer::DrawConvexHull(QGraphicsScene& scene, const ConvexHullModelBase& model)
 {
-	if (model.GetNumConvexHullPoints() <= 1)
+	if (model.getNumConvexHullPoints() <= 1)
 		return;
-	PointIterator iter(model, THROUGH_CONVEX_POINTS);
-	if (model.GetNumConvexHullPoints() == 2)
+    PointIterator iter(model, eIteratorType::THROUGH_CONVEX_POINTS);
+	if (model.getNumConvexHullPoints() == 2)
 	{
-		CPen pn(PS_SOLID, 2, convex_hull_color);
-		CPen* oldPen = dc.SelectObject(&pn);
+        QPen convex_hull_pen(convex_hull_color, 2, Qt::PenStyle::SolidLine);
 		Point2D first = iter.GetCurValue();
 		iter.MoveNext();
 		Point2D second = iter.GetCurValue();
 
-		dc.MoveTo(first.x, first.y);
-		dc.LineTo(second.x, second.y);
-		dc.SelectObject(oldPen);
+        scene.addLine(first.x,
+                      first.y,
+                      second.x,
+                      second.y,
+                      convex_hull_pen);
 		return;
 	}
 	
-	CRgn convex_hull;
-	CBrush convex_hull_brush(convex_hull_color);
-	CPoint* array = new CPoint[model.GetNumConvexHullPoints()];
-	int i = 0;
-	while (iter.HasMoreElements())
-	{
-		Point2D cur_pnt = iter.GetCurValue();
-		array[i].x = cur_pnt.x;
-		array[i].y = cur_pnt.y;
+    QBrush convex_hull_brush(convex_hull_color, Qt::SolidPattern);
 
-		++i;
-		iter.MoveNext();
-	}
-	convex_hull.CreatePolygonRgn(&array[0], model.GetNumConvexHullPoints(), ALTERNATE);
-	dc.FillRgn(&convex_hull, &convex_hull_brush);
-	delete[] array;
+    QPolygonF polygon;
+    polygon.reserve(model.getNumConvexHullPoints());
+
+    while (iter.HasMoreElements()) {
+        Point2D cur_pnt = iter.GetCurValue();
+        polygon.append(QPointF(cur_pnt.x, cur_pnt.y));
+        iter.MoveNext();
+    }
+    scene.addPolygon(polygon, QPen(Qt::PenStyle::SolidLine), convex_hull_brush);
 }
 
-void ConvexHullRenderer::DrawBackground(CDC& dc, const CRect& cli_rect)
+void ConvexHullRenderer::DrawBackground(QGraphicsScene& scene)
 {
-	CBrush bcg_brush(background_color);
-	CBrush* oldBrush = dc.SelectObject(&bcg_brush);
-	//stuff
-	dc.FillRect(&cli_rect, &bcg_brush);
-
-	dc.SelectObject(oldBrush);
+    QBrush bcg_brush(background_color);
+    scene.setBackgroundBrush(bcg_brush);
 }
 
-void ConvexHullRenderer::Draw(CDC& dc, const CRect& cli_rect, const ConvexHullModelBase& model)
+void ConvexHullRenderer::Draw(QGraphicsScene& scene, const ConvexHullModelBase& model)
 { 
-	DrawBackground(dc, cli_rect);
-	DrawConvexHull(dc, model);
-	DrawPoints(dc, model);
+    DrawBackground(scene);
+    DrawConvexHull(scene, model);
+    DrawPoints(scene, model);
 }
+
+void ConvexHullRenderer::resetColors(){
+    SetBackgroundColor(QColor(255, 255, 255));
+    SetPointsColor(QColor(0, 0, 0));
+    SetConvexHullColor(QColor(255, 0, 0));
+}
+
